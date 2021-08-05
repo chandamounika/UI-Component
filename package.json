@@ -12,8 +12,6 @@
     "app-war": "ng build external --prod --base-href \"/external/\" --build-optimizer",
     "app-local": "ng build external --target=development --environment=prod --base-href \"/external/\"",
     "deq-page": "schematics ./schematics/src/collection.json:page --debug=false",
-
-
     "compodoc-external": "npx compodoc --tsconfig external/tsconfig.app.json --output documentation-external",
     "compodoc-internal": "npx compodoc --tsconfig manager/tsconfig.app.json --output documentation-internal"
   },
@@ -31,7 +29,7 @@
     "@angular/router": "^10.1.4",
     "@ng-bootstrap/ng-bootstrap": "^6.0.3",
     "bootstrap": "^4.4.1",
-    "core-js": "^3.6.5",
+    "core-js": "^2.5.0",
     "lodash-es": "^4.17.15",
     "rxjs": "^6.5.5",
     "tslib": "^2.0.0",

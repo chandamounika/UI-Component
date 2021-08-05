@@ -19,7 +19,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     FormsModule,
-    NgbModule.forRoot(),
+    NgbModule,
     ReactiveFormsModule,
     HttpClientModule,
     appRouting,
