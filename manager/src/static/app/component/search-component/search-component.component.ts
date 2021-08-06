@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChange
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
-import { isNullOrUndefined } from 'util';
 
 @Component({
     selector: 'search-component',

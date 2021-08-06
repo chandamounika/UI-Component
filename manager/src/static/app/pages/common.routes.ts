@@ -47,4 +47,4 @@ export const commonRoute: Routes = [
     }
 ];
 
-export const commonRouting: ModuleWithProviders<any> = RouterModule.forRoot(commonRoute);
+export const commonRouting: ModuleWithProviders<any> = RouterModule.forRoot(commonRoute, { relativeLinkResolution: 'legacy' });
