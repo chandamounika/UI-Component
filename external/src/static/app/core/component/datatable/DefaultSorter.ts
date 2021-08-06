@@ -28,7 +28,7 @@ export class DefaultSorter implements OnInit {
 
     sort() {
         if (this.isSortedByMeAsc) {
-            this.mfTable.setSort(this.sortBy, "desc");
+            this.mfTable.setSort(this.sortBy,"desc");
         } else {
             this.mfTable.setSort(this.sortBy, "asc");
         }
