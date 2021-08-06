@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InventoryListComponent } from '../component/inventory-list/inventory-list.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 
 export const commonRoute: Routes = [
@@ -10,8 +11,8 @@ export const commonRoute: Routes = [
         pathMatch: 'full'
     },
     {
-        path:'applications',
-        children:[
+        path: 'applications',
+        children: [
             {
                 path: ':requestType',
                 component: InventoryListComponent,
@@ -19,21 +20,31 @@ export const commonRoute: Routes = [
             },
             {
                 path: 'qb',
-                children:[]
+                children: []
             },
             {
                 path: 'template',
-                children:[]
-               
+                children: []
+
             },
             {
                 path: 'cc',
-                children:[]
+                children: []
+            },
+
+        ]
+    },
+    {
+        path: 'in',
+        children: [
+            {
+                path: ':requestType',  //inventory
+                component: InventoryComponent,
+                data: { title: 'AIR - PERMITS', pageClass: 'list-page' }
             }
 
         ]
     }
 ];
 
-export const commonRouting: ModuleWithProviders = RouterModule.forRoot(commonRoute);
-
+export const commonRouting: ModuleWithProviders<any> = RouterModule.forRoot(commonRoute);

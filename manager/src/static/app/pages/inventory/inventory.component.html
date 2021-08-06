@@ -1,0 +1,213 @@
+<!-- <div class="list card text-center">
+    <div class="card-header pl-0 pt-0">
+        <ul class="nav nav-tabs card-header-tabs ml-0">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" [routerLink]="['/applications/permitinventory']" routerLinkActive="active">PERMIT INVENTORY</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" [routerLink]="['/applications/pendingcc']" routerLinkActive="active">COMPLIANCE CERTIFICATION</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" [routerLink]="['/applications/questionbank']" routerLinkActive="active">QUESTION BANK</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body bg-info ">
+        <div class="mydeq-page-content">
+            <div class="row w-102">
+               <div class="col-md-12"> 
+                        <button *ngIf = "requestType === 'permitinventory'" type="button" class="btn btn-primary float-md-right" (click)="loadPermits()">
+                                <span class="">
+                                </span><p class="mb-0" *ngIf="permitType === 'A'">SHOW INACTIVE PERMITS</p><p class="mb-0" *ngIf="permitType === 'I'">SHOW ACTIVE PERMITS</p>
+                        </button>
+               </div> 
+                   
+            </div>
+                
+                <div *ngIf = "requestType === 'pendingcc' || requestType === 'reviewedcc'" >
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <ul class="nav nav-tabs card-header-tabs ml-0">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="javascript:void(0)" [routerLink]="['/applications/pendingcc']" routerLinkActive="active">PENDING</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="javascript:void(0)" [routerLink]="['/applications/reviewedcc']" routerLinkActive="active">REVIEWED</a>
+                                        </li>
+                                </ul>
+                        </div>
+                </div>
+            <div class="py-3 border-bottom">
+                <h3 class="text-primary pl-0 pr-4 font-weight-bold float-left">{{pageText[requestType]?.header}}</h3>
+                 <h3 class="text-primary pr-0 pr-4 font-weight-bold float-right">TOTAL: {{requestList?requestList.length : 0 }}</h3>
+                <div class="clearfix"></div>
+            </div>
+            <div *ngFor="let error of errorsList" class="alert alert-danger text-center" role="alert">{{error}}</div>
+            <div class=" pt-4 search row no-gutters">
+                <div class= "col-md-8">
+                <search-component [searchList] = "fullList" [searchKey] = "searchKeys" [placeholderText] = "placeHolderText" (updatedSearchList)="updatedSearchList($event)"></search-component></div>
+                <div class=" float-right col-md-4">
+                    <button *ngIf = "requestType === 'questionbank'" type="button" class="btn btn-primary float-right" (click)="updateAddQuestionModal()">
+                        <span class="arrow left">
+                            <i class="fa fa-plus"></i>
+                        </span>ADD QUESTION
+                    </button>
+                 
+                    <button *ngIf = "requestType === 'permitinventory' || requestType === 'pendingcc' || requestType === 'reviewedcc'" type="button" class="btn btn-primary float-right" (click)="download()">
+                        <span class="arrow left">
+                            <i class="far fa-file-alt"></i>
+                        </span>EXPORT
+                    </button>
+                </div>
+            </div>
+            <section class="pt-4 dashboard" id="dashboard">
+                <table class="table table-striped h6" [mfData]="requestList" #mf="mfDataTable" [mfRowsOnPage]="15" mfSortOrder="desc">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let theader of pageText[requestType].table">
+                                <mfDefaultSorter *ngIf="theader.sortable;else notSortable" [by] ="theader.sortKey">{{theader.colName}}</mfDefaultSorter>
+                                <ng-template #notSortable>{{theader.colName}}</ng-template>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let result of mf.data;">
+                            <td *ngFor="let colData of pageText[requestType].table">
+                                <span *ngIf="colData.type!=='icon' && colData.type !=='link'" [ngbPopover]="popContent" triggers="manual" #p="ngbPopover"  (mouseenter)="popOpen(p, 'TextHover')" (mouseout)="popClose(p,'NAME',i)">{{displayContent(result[colData.sortKey],colData.sortKey) | concatString : 60 }}
+                                        <ng-template #popContent>
+                                                <div class="pb-2" > {{displayContent(result[colData.sortKey],colData.sortKey)}}</div>
+                                                <div class="clearfix"></div>
+                                        </ng-template>
+                                </span>
+                                <span *ngIf="colData.type ==='icon' && colData.colName === 'Global' && checkIcon(result[colData.sortKey])" class="globe-icon-sm pb-2">
+                                    
+                                </span>
+
+                                <span *ngIf="colData.type ==='icon' && colData.colName !== 'Global'">
+                                    <a *ngIf="checkIcon(result[colData.sortKey])" [ngbPopover]="popContent" #p="ngbPopover" triggers="manual" (click) = "checkDelete(colData.colName) ? popOpen(p,'delete'):popClose(p,'delete')">
+                                        <i class="fa {{colData.iconName}} text-primary cursor-pointer"></i>
+                                    </a>
+                                    <ng-template #popContent>
+                                        <div class="pb-2">Are you sure you want to delete?</div>
+                                            <button type="button" class="btn btn-sm btn-danger float-left" (click)="deleteQuestion(result)">
+                                              YES</button>
+                                            <button type="button" class="btn btn-sm btn-success float-right">NO</button>
+                                        <div class="clearfix"></div>
+                                    </ng-template>
+                                </span>
+
+                                <span *ngIf="colData.type ==='link'" (click) = "navigateToLink(result)" [ngClass]="{'element-disabled':checkClick(result)}">
+                                        <a class= "text-primary cursor-pointer">
+                                            {{colData.linkName}}
+                                        </a>
+                                </span>
+                            </td>
+                             <td>
+                             <a *ngIf = "!showAnnualReport" routerLink="view" [queryParams]="{requestIdNo: result.requestId, appId: result.appId, glbReqId: result.gldReqId,  emailId: result.rcoEmailId, ltfNo: result.activityId, reqStatus: result.requestStatus}">VIEW</a>
+                             <a *ngIf = "showAnnualReport" routerLink="viewAnnualReport" [queryParams]="{arId: result.arId, reqStatus: result.requestStatus}">VIEW</a>
+                        </td>
+
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td [attr.colspan]="pageText[requestType].table.length" class="pb-0 mb-0 pl-0">
+                                <div class="pb-0 mb-0 float-right">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+               
+            </section>
+        </div>
+    </div>
+</div>
+
+ -->
+
+
+
+ <div class="list card text-center">
+
+    <tab-headers [activeTabName]="{facility:true}"></tab-headers>
+  
+    <div class="card-body bg-info ">
+        <div class="mydeq-page-content">
+           
+            <div class="pt-4 border-bottom mb-0">
+                <h3 class="text-primary pl-0 pr-4 font-weight-bold float-left">{{pageText[requestType]?.header}}</h3>
+                <h3 class="text-primary pr-0 pr-4 font-weight-bold float-right">TOTAL: {{requestList? requestList?.length : 0 }}</h3>
+                <div class="clearfix"></div>
+            </div>
+            <div *ngFor="let error of errorsList" class="alert alert-danger text-center" role="alert">{{error}}</div>
+            <div class=" pt-4 search row no-gutters">
+                <div class="col-md-8">
+                    <search-component [searchList]="fullList" [searchKey]="searchKeys" [searchCache]="searchCache" [placeholderText]="placeHolderText" (updatedSearchList)="updatedSearchList($event)"></search-component>
+                </div>
+                <div class=" float-right col-md-4">
+  
+                    <button type="button" class="btn btn-primary float-right" (click)="refreshCache()">
+                        <span class="arrow left">
+                            <i class="far fa-refresh"></i>
+                        </span>Refresh
+                    </button>
+                </div>
+            </div>
+            <section class="pt-4 dashboard" id="dashboard">
+                <table class="table table-striped h6" [mfData]="requestList" #mf="mfDataTable" [mfRowsOnPage]="15" mfSortOrder="desc">
+                    <thead>
+                        <tr class="h6">
+                            <th *ngFor="let theader of pageText[requestType].table" style="color: #5F4543 !important;">
+                                <mfDefaultSorter *ngIf="theader.sortable;else notSortable" [by]="theader.sortKey" class="h6">{{theader.colName}}</mfDefaultSorter>
+                                <ng-template #notSortable class="h6">{{theader.colName}}</ng-template>
+                            </th>
+                            <th style="color: #5F4543 !important;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let result of mf.data; let i=index">
+                       
+                        <td *ngFor="let colData of pageText[requestType].table">
+  
+                          <div [ngSwitch]="colData.type">
+  
+    
+                            <div *ngSwitchCase="'object'">
+                              <div *ngFor="let field of colData.fieldNames" class="font-weight-light h6">
+                                {{result[colData.sortKey]? result[colData.sortKey][field] : ''}}
+                              </div>
+                            </div>
+                            <div *ngSwitchCase="'data'" class="font-weight-light h6">
+                              {{result[colData.sortKey]}}
+                            </div>
+                            
+                          </div>
+                        </td>
+                        <td>                       
+                          <a class="cursor-pointer text-primary font-weight-light h6" style="text-decoration: underline;"  (click)="viewFacilityDetails(result.placeId)">VIEW ></a>
+          
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td [attr.colspan]="pageText[requestType].table?.length+1" class="pb-0 mb-0 pl-0">
+                                <div class="pb-0 mb-0 float-right">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+  
+            </section>
+        </div>
+    </div>
+  </div>
+  

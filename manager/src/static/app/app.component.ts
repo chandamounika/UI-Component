@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren } from '@angular/core';
 import { Router, ActivatedRoute, RoutesRecognized, NavigationEnd, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { SessionTimeOutModalComponent } from './shared/modals/session-timeout/timeout.component';
@@ -7,6 +7,7 @@ import {PageConentService} from '../app/core/content/content-service.component';
 import * as _ from 'lodash';
 import { environment } from 'external/src/static/environments/environment';
 import { LoggerService } from './shared/lib/logger/logger-service.component';
+import { InvetoryService } from './service/invetory.service';
 
 @Component({
   selector: 'manager-root',
@@ -25,7 +26,9 @@ export class AppComponent  implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private pageConentService: PageConentService,
-    private logger:LoggerService) {
+    private logger:LoggerService,
+    private inventoryService: InvetoryService
+    ) {
     
     logger.setProductionFlag(environment.production);   
     
@@ -50,6 +53,8 @@ export class AppComponent  implements OnInit, AfterViewInit {
 
     
     });
+
+    this.inventoryService.setRefreshCounter();
   
   }
 
@@ -77,6 +82,8 @@ export class AppComponent  implements OnInit, AfterViewInit {
       }
       
     });
+
+    
   }
 
   private setProcessName(inputurl:string){
