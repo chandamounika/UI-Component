@@ -117,7 +117,7 @@ export class Utils {
     // Set navigation extras object
     // that passes on global query params and fragment
     this.navigationExtras = {
-      preserveQueryParams: true,
+      // preserveQueryParams: true,
       preserveFragment: false
     };
 
