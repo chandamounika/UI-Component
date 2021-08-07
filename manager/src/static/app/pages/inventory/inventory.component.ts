@@ -12,11 +12,11 @@ import { environment } from 'manager/src/static/environments/environment';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { LoggerService } from '../../shared/lib/logger/logger-service.component';
 import { InvetoryService } from '../../service/invetory.service';
+import { SortingService } from '../../service/sorting.service';
 
 @Component({
     selector: 'app-inventory',
-    templateUrl: './inventory.component.html',
-    styleUrls: ['./inventory.component.scss']
+    templateUrl: './inventory.component.html'
 })
 export class InventoryComponent extends BaseControllerComponent implements OnInit {
 
@@ -32,6 +32,7 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
 
     onIntervalList = [];
     searchCache: string = '';
+    tableHeaders= [];
     constructor(
         public utils: Utils,
         private route: ActivatedRoute,
@@ -39,7 +40,8 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
         // private service: ManagerService,
         protected errorHandler: MyDeqErrorHandler,
         private logger: LoggerService,
-        private inventoryService: InvetoryService
+        private inventoryService: InvetoryService,
+        private SortingService : SortingService
     ) {
         super(errorHandler, new InventoryListText());
 
@@ -49,6 +51,10 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
         this.dbForm = this.formBuilder.group({
             searchText: new FormControl(null),
         });
+
+        this.tableHeaders = this.SortingService.getSortHeaderType(
+            this.requestType+'-Sort' , this.pageText[this.requestType].table 
+            ) ;
     }
 
     ngOnInit() {

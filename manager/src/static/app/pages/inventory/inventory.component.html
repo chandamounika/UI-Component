@@ -161,9 +161,9 @@
                 <table class="table table-striped h6" [mfData]="requestList" #mf="mfDataTable" [mfRowsOnPage]="15" mfSortOrder="desc">
                     <thead>
                         <tr class="h6">
-                            <th *ngFor="let theader of pageText[requestType].table" style="color: #5F4543 !important;">
-                                <mfDefaultSorter *ngIf="theader.sortable;else notSortable" [by]="theader.sortKey" class="h6">{{theader.colName}}</mfDefaultSorter>
-                                <ng-template #notSortable class="h6">{{theader.colName}}</ng-template>
+                            <th *ngFor="let theader of tableHeaders" style="color: #5F4543 !important;">
+                                <mfDefaultSorter *ngIf="theader.sortable;else notSortable" [by]="theader.sortKey"  [refreshEnableSort]="true" [sortOrder]="theader.sortOrder" [reqType]="requestType"  class="h6">{{theader.colName}}</mfDefaultSorter>
+                                <ng-template #notSortable class="h6">{{theader.colName}}</ng-template> 
                             </th>
                             <th style="color: #5F4543 !important;">Action</th>
                         </tr>

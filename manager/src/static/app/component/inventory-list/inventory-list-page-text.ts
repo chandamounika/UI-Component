@@ -277,19 +277,23 @@ export class InventoryListText extends BasePageContent {
                     type: 'data',
                     searchable: true,
                     sortKey: 'placeId',
+                    sortOrder:false
                 },
                 {
                     colName: 'Facility Name',
                     sortable: true,
                     sortKey: 'placeName',
-                    type: 'data'
+                    type: 'data',
+                    sortOrder:false
                 },
                 {
                     colName: 'Location',
                     sortable: true,
                     sortKey: 'address',
                     fieldNames: ['facilityAddressLine1', 'facilityAddressLine2'],
-                    type: 'object'
+                    type: 'object',
+                    searchable: true,
+                    sortOrder:false
                 },
             ],
 
