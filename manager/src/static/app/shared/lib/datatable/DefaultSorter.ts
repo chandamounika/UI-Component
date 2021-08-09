@@ -29,6 +29,7 @@ export class DefaultSorter implements OnInit {
             this.isSortedByMeAsc = (event.sortBy == this.sortBy && event.sortOrder == "asc");
             this.isSortedByMeDesc = (event.sortBy == this.sortBy && event.sortOrder == "desc");
         });
+        console.log(" this.isSortedByMeAsc", this.isSortedByMeAsc ,  this.isSortedByMeDesc)
 
     }
     ngAfterContentInit() {
@@ -42,6 +43,7 @@ export class DefaultSorter implements OnInit {
             this.orderby = this.SortingService.getSortType(this.reqType + '-Sort', this.sortBy);
             this.mfTable.setSort(this.sortBy, this.orderby);
         } else {
+
             if (this.isSortedByMeAsc) {
                 this.orderby = "desc";
             } else {

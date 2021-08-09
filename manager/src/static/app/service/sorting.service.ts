@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-
 @Injectable({
   providedIn: 'root'
 })
 export class SortingService {
 
-  constructor() { }
+  constructor() {   }
 
   setSortHeaderType(key, sortKey, sortOrder) {
     let headers = {};
@@ -36,8 +35,15 @@ export class SortingService {
     if (localStorage.getItem(key)) {
       headers = JSON.parse(localStorage.getItem(key));
     }
-
    return headers[sortKey];
+  }
+
+  resetSortFilters(key){
+    localStorage.removeItem(key);
+  }
+
+  resetSearchCache(key){
+    localStorage.removeItem(key);
   }
 
 }
