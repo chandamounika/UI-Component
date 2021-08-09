@@ -1,8 +1,8 @@
-import {BasePageContent} from '../json/base-content';
+import { BasePageContent } from '../json/base-content';
 
-export class InventoryListText extends BasePageContent{
+export class InventoryListText extends BasePageContent {
 
-    constructor(){
+    constructor() {
         super();
         this.getPageSpecificText();
     }
@@ -14,10 +14,10 @@ export class InventoryListText extends BasePageContent{
             total: 'TOTAL',
             table: [
                 {
-                colName: 'LTF#',
-                sortable: true,
-                sortKey: 'permitId',
-                type: 'data'
+                    colName: 'LTF#',
+                    sortable: true,
+                    sortKey: 'permitId',
+                    type: 'data'
                 },
                 {
                     colName: 'Place Id',
@@ -206,11 +206,11 @@ export class InventoryListText extends BasePageContent{
             total: 'TOTAL',
             table: [
                 {
-                colName: 'ID',
-                sortable: true,
-                sortKey: 'questionId',
-                type: 'data',
-                searchable: true
+                    colName: 'ID',
+                    sortable: true,
+                    sortKey: 'questionId',
+                    type: 'data',
+                    searchable: true
                 },
                 {
                     colName: 'Type',
@@ -224,7 +224,7 @@ export class InventoryListText extends BasePageContent{
                     sortable: true,
                     sortKey: 'globalIndicator',
                     type: 'icon',
-                    iconName:'fa-globe',
+                    iconName: 'fa-globe',
                     searchable: false
                 },
                 {
@@ -261,12 +261,43 @@ export class InventoryListText extends BasePageContent{
                     sortable: false,
                     sortKey: 'N',
                     type: 'icon',
-                    iconName:'fas fa-trash-alt',
+                    iconName: 'fas fa-trash-alt',
                     searchable: true
                 }
             ]
         };
 
+        this.PAGE_TEXT['inventory'] = {
+            header: 'SEARCH',
+            total: 'TOTAL',
+            table: [
+                {
+                    colName: 'Facility ID',
+                    sortable: true,
+                    type: 'data',
+                    searchable: true,
+                    sortKey: 'placeId',
+                    sortOrder:false
+                },
+                {
+                    colName: 'Facility Name',
+                    sortable: true,
+                    sortKey: 'placeName',
+                    type: 'data',
+                    sortOrder:false
+                },
+                {
+                    colName: 'Location',
+                    sortable: true,
+                    sortKey: 'address',
+                    fieldNames: ['facilityAddressLine1', 'facilityAddressLine2'],
+                    type: 'object',
+                    searchable: true,
+                    sortOrder:false
+                },
+            ],
 
-        }
+            colspan: 7,
+        };
+    }
 }

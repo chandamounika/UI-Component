@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import * as _ from 'lodash';
 import { ReplaySubject } from 'rxjs';
-import { isNumber } from 'util';
 import { parse } from 'url';
 
 export interface SortEvent {

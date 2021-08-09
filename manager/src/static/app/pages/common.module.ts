@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { commonRouting } from './common.routes';
 import { ComponentModule } from '../component/component.module';
 import { SharedModule } from '../shared/shared.module';
+import { InventoryComponent } from './inventory/inventory.component';
 
 
 
@@ -20,7 +21,7 @@ import { SharedModule } from '../shared/shared.module';
         ComponentModule,
         SharedModule
     ],
-    declarations: [],
+    declarations: [InventoryComponent],
 
 
 
