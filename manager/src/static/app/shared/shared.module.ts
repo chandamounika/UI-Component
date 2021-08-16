@@ -5,6 +5,7 @@ import { MydeqFooterComponent } from './nav/mydeq-footer/mydeq-footer.component'
 import { MydeqHeaderComponent } from './nav/mydeq-header/mydeq-header.component';
 
 import { Utils } from './Utils';
+import { Helper } from './helper';
 import {MyDeqErrorHandler} from './errorHandler';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -47,7 +48,7 @@ import { LoggerService } from './lib/logger/logger-service.component';
 
   providers: [
     Utils, MyDeqErrorHandler, ManagerService, PageConentService, PhonePipe, NgbAccordionConfig,
-    NgbDatepickerConfig, NgbActiveModal, NgbPopoverConfig, LoggerService
+    NgbDatepickerConfig, NgbActiveModal, NgbPopoverConfig, LoggerService, Helper
   ],
   //entryComponents: [MydeqAlertModalComponent]
 })

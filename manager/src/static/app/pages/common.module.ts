@@ -7,6 +7,7 @@ import { commonRouting } from './common.routes';
 import { ComponentModule } from '../component/component.module';
 import { SharedModule } from '../shared/shared.module';
 import { InventoryComponent } from './inventory/inventory.component';
+import { FilterRecords } from './filter-records/filter-records.component';
 
 
 
@@ -21,8 +22,7 @@ import { InventoryComponent } from './inventory/inventory.component';
         ComponentModule,
         SharedModule
     ],
-    declarations: [InventoryComponent],
-
+    declarations: [InventoryComponent, FilterRecords],
 
 
     exports: []
