@@ -2,11 +2,11 @@
 
     <h5>
 
-        {{filterConfig.name}}
+        {{filterConfig?.name}}
     </h5>
     <section class="filters-container">
-        <div class="filter-container" *ngFor="let filter of filterConfig.filters">
-            {{filter.name}} Filter
+        <div class="filter-container" *ngFor="let filter of filterConfig?.filters">
+            {{filter?.name}} Filter
             <div class="filter-options" [ngSwitch]="filter.type">
                 <div class="dropdown-filter" *ngSwitchCase="'DROPDOWN'">
                     <select (change)="onDropDownChange($event, filter)">

@@ -38,18 +38,14 @@ export class DataFilterComponent implements OnInit {
   onDropDownChange(event, filter: Filter) {
     const filterFn = filter.options.find(x => x.value === event?.target?.value)?.filterFn;
     this.selectedFiltersMap[filter.name] = [filterFn];
-    const getFilterFn = Object.values(this.selectedFiltersMap)
-    console.log(getFilterFn[0])
-    const filteredRecords = this.helper.filterRecords(this.records,  getFilterFn)
-    this.filterChange.emit(filteredRecords);
+    this.filterRecords();
   }
+ 
 
   onRadioChange(event, filter: Filter) {
     const filterFn = filter.options.find(x => x.value === event?.target?.value)?.filterFn;
     this.selectedFiltersMap[filter.name] = [filterFn];
-    const getFilterFn = Object.values(this.selectedFiltersMap)
-    const filteredRecords = this.helper.filterRecords(this.records,  getFilterFn)
-    this.filterChange.emit(filteredRecords);
+    this.filterRecords();
   }
 
   onCheckBoxChange(event, filter: Filter) {
@@ -65,6 +61,10 @@ export class DataFilterComponent implements OnInit {
     else {
       this.selectedFiltersMap[filter.name] = this.selectedFiltersMap[filter.name].filter(x => x !== filterFn);
     }
+    this.filterRecords();
+  }
+
+  filterRecords() {
     const getFilterFn = Object.values(this.selectedFiltersMap)
     const filteredRecords = this.helper.filterRecords(this.records,  getFilterFn)
     this.filterChange.emit(filteredRecords);

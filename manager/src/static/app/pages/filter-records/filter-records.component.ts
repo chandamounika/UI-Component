@@ -71,10 +71,10 @@ export class FilterRecords extends BaseControllerComponent implements OnInit {
                         {label: '602-xxx-xxxx', value: '602', filterFn: x => x.customer.companyPhone.phoneAreaCode === '602' },
                         {label: '801-xxx-xxxx', value: '801', filterFn: x => x.customer.companyPhone.phoneAreaCode === '801' }
                     ]
-                },
+                }
             ]
         }
-        console.log(this.helper.filterRecords(this.records, [[(x) => x.customer.companyAddress.country === 'US'],  [x => x.customer.companyPhone.phoneAreaCode === '602']]), "hello")
+        // console.log(this.helper.filterRecords(this.records, [(x) => x.customer.companyAddress.country === 'US',  x => x.customer.companyPhone.phoneAreaCode === '602']), "hello")
     }
 
     onFilterChange(filteredRecords) {
