@@ -4,9 +4,9 @@ import { MyDeqErrorHandler } from '../../shared/errorHandler';
 import { Utils } from '../../shared/Utils';
 import * as _ from 'lodash-es';
 import { InventoryListText } from '../../component/inventory-list/inventory-list-page-text';
-import { ApiService } from '../../service/api.service';
 import { FilterConfig } from '../../component/data-filter/data-filter.component';
-import { Helper } from '../../shared/helper';
+import { environment } from '../../../../../../manager/src/static/environments/environment';
+import { FilterHelper } from '../../shared/FilterHelper';
 
 @Component({
     selector: 'app-testing-filters',
@@ -16,27 +16,28 @@ import { Helper } from '../../shared/helper';
 export class FilterRecords extends BaseControllerComponent implements OnInit {
     records: any[] = [];
     filterConfig: FilterConfig;
+    private filterHelper: FilterHelper = new FilterHelper();
     constructor(
         public utils: Utils,
-        protected errorHandler: MyDeqErrorHandler,
-        private apiservice: ApiService,
-        private helper : Helper
+        protected errorHandler: MyDeqErrorHandler
     ) {
         super(errorHandler, new InventoryListText());
-        this.gettableData();
+        // this.gettableData();
     }
 
     ngOnInit() {
+        this.records = environment.customers;
+        this.setFilterConfig();
+    }
 
-    }
-  
-    gettableData() {
-        this.errorsList = [];
-        this.apiservice.getFilterResultData().subscribe((response: any) => {
-            this.records =response;
-            this.setFilterConfig();
-        })
-    }
+    // gettableData() {
+    //     this.errorsList = [];
+    //     this.apiservice.getFilterResultData().subscribe((response: any) => {
+    //         this.records = response;
+    //         this.setFilterConfig();
+
+    //     })
+    // }
 
     setFilterConfig() {
         this.filterConfig = {
@@ -45,36 +46,44 @@ export class FilterRecords extends BaseControllerComponent implements OnInit {
                 {
                     name: 'Country',
                     type: 'DROPDOWN',
-                    options: 
-                    _.uniq(this.records.map(x => x.customer.companyAddress.country))
-                    .map(c =>({label: c, value: c, filterFn: x => x.customer.companyAddress.country === c }))
+                    filterPath: 'customer.companyAddress.country',
+                    options: _.uniq(this.records.map(x => x.customer.companyAddress.country))
+                        .map(c => ({ label: c, value: c }))
                 },
                 {
                     name: 'State',
                     type: 'RADIO',
-                    options:
-                    _.uniq(this.records.map(x => x.customer.companyAddress.state))
-                    .map(s =>({label: s, value: s, filterFn: x => x.customer.companyAddress.state === s }))
+                    filterPath: 'customer.companyAddress.state',
+                    options: _.uniq(this.records.map(x => x.customer.companyAddress.state))
+                        .map(s => ({ label: s, value: s }))
                 },
                 {
                     name: 'prohibitedArea',
                     type: 'DROPDOWN',
+                    filterPath: 'userInfo.userAddress.prohibitedArea',
+                    isBoolean: true,
                     options: [
-                        {label: 'true', value:'true', filterFn: x => x.userInfo?.userAddress?.prohibitedArea === true },
-                        {label: 'false', value:'false', filterFn: x => x.userInfo?.userAddress?.prohibitedArea === false },
+                        { label: 'Yes', value: true },
+                        { label: 'No', value: false },
                     ]
                 },
                 {
                     name: 'Phone Area Code',
                     type: 'CHECKBOX',
+                    filterPath: 'customer.companyPhone.phoneAreaCode',
                     options: [
-                        {label: '602-xxx-xxxx', value: '602', filterFn: x => x.customer.companyPhone.phoneAreaCode === '602' },
-                        {label: '801-xxx-xxxx', value: '801', filterFn: x => x.customer.companyPhone.phoneAreaCode === '801' }
+                        { label: '602-xxx-xxxx', value: '602' },
+                        { label: '801-xxx-xxxx', value: '801' }
                     ]
                 }
             ]
         }
-        // console.log(this.helper.filterRecords(this.records, [(x) => x.customer.companyAddress.country === 'US',  x => x.customer.companyPhone.phoneAreaCode === '602']), "hello")
+        console.log(
+            this.filterHelper.filterRecords(this.records, [
+                { path: 'customer.companyPhone.phoneAreaCode', values: ['602'] }
+
+            ]
+            ));
     }
 
     onFilterChange(filteredRecords) {

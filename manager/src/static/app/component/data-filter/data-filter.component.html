@@ -1,7 +1,6 @@
 <section class="wrapper">
 
     <h5>
-
         {{filterConfig?.name}}
     </h5>
     <section class="filters-container">
@@ -10,7 +9,7 @@
             <div class="filter-options" [ngSwitch]="filter.type">
                 <div class="dropdown-filter" *ngSwitchCase="'DROPDOWN'">
                     <select (change)="onDropDownChange($event, filter)">
-                        <option [ngValue]="null">--Select--</option>
+                        <option value="null">--Select--</option>
                         <option *ngFor="let opt of filter.options" [value]="opt.value">{{opt.label}}</option>
                     </select>
                 </div>    
