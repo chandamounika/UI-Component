@@ -55,32 +55,33 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
             searchText: new FormControl(null),
         });
 
-       this.setTableHeaders();
+        this.setTableHeaders();
     }
 
     ngOnInit() {
         this.gettableData();
         if (localStorage.getItem(this.requestType + '-SearchValue')) {
             this.searchCache = localStorage.getItem(this.requestType + '-SearchValue');
-        } 
+        } else {
+            this.searchCache = "";
+        }
 
-        this.inventoryService.refreshCache.subscribe((data:Data)=>{
-                if(data.refresh){
-                   this.refreshCache(); 
-                }
+        this.inventoryService.refreshCache.subscribe((data: Data) => {
+            if (data.refresh) {
+                this.refreshCache();
+            }
         })
     }
 
-    setTableHeaders(){
+    setTableHeaders() {
         this.tableHeaders = this.SortingService.getSortHeaderType(
             this.requestType + '-Sort', this.gettableheaders()
         );
-        console.log( this.tableHeaders, this.pageText[this.requestType].table);
-
     }
-    gettableheaders(){
-        let headers  =  this.pageText[this.requestType].table
-       return headers;
+
+    gettableheaders() {
+        let headers = this.pageText[this.requestType].table
+        return headers;
     }
 
     async gettableData() {
@@ -91,12 +92,30 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
         console.log("REQTYPE", this.requestType);
 
         this.requestList = await this.inventoryService.getInvertoryCache();
+
+        this.tableHeaders.forEach(colData => {
+            if (colData.type == "object") {
+                this.requestList.forEach(result => {
+                    result[colData.sortKey] = "";
+                    colData.fieldNames.forEach((field, index) => {
+                        if (index == colData.fieldNames.length - 1) {
+                            result[colData.sortKey] += result[colData.objectKey] ? result[colData.objectKey][field] : ''
+                        } else {
+                            result[colData.sortKey] += result[colData.objectKey] ? result[colData.objectKey][field] + ", " : ''
+
+                        }
+                    });
+                })
+            }
+        })
+
         this.fullList = this.requestList;
     }
 
     async refreshCache() {
         await this.inventoryService.resetInvertoryCache();
-        this.searchText="";
+        this.searchText = "";
+        this.searchCache = "";
         this.setTableHeaders();
         this.gettableData();
         this.refreshfunctionalities = false;
@@ -114,6 +133,8 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
         this.searchKeys.set("customerId", []);
         this.searchKeys.set("address", ['diplayAddress']);
         this.searchText = "";
+        this.searchCache = "";
+
     }
 
     updatedSearchList(value: any[]) {

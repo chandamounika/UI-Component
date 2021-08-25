@@ -966,7 +966,7 @@ export abstract class BaseController  extends BaseComponent implements OnInit {
      * @param servicePageName - page name returned by service
      * @returns corrected pageName
      */
-    private correctPageName(servicePageName:string){
+    protected correctPageName(servicePageName:string){
         return servicePageName.toLowerCase().replace(/_/g, '-');
     }
     

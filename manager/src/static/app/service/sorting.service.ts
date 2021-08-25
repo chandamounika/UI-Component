@@ -18,15 +18,17 @@ export class SortingService {
       headers = JSON.parse(localStorage.getItem(key));
     }
 
-    theaders.forEach(field => {
-      for(let [key , val] of Object.entries(headers)){
-        if(field.sortKey == key){
-            field.sortOrder = true;
-        }else{
-          field.sortOrder = false;
+   if(Object.entries(headers).length != 0){
+      theaders.forEach(field => {
+        for(let [key , val] of Object.entries(headers)){
+          if(field.sortKey == key){
+              field.sortOrder = true;
+          }else{
+            field.sortOrder = false;
+          }
         }
-      }
-    });
+      });
+    }  
     return theaders;
   }
 
@@ -35,7 +37,7 @@ export class SortingService {
     if (localStorage.getItem(key)) {
       headers = JSON.parse(localStorage.getItem(key));
     }
-   return headers[sortKey];
+   return headers[sortKey]? headers[sortKey]: "desc";
   }
 
   resetSortFilters(key){

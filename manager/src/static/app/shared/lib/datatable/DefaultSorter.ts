@@ -33,12 +33,17 @@ export class DefaultSorter implements OnInit {
 
     }
     ngAfterContentInit() {
-        if (this.sortOrder) {
-            this.sort(false);
-        }
+            if (this.sortOrder) {
+                this.sort(false);
+            } 
     }
 
     sort(val) {
+
+        this.mfTable.onSortChange.subscribe((event: SortEvent) => {
+            this.isSortedByMeAsc = (event.sortBy == this.sortBy && event.sortOrder == "asc");
+        });
+
         if (this.sortOrder && !val) {
             this.orderby = this.SortingService.getSortType(this.reqType + '-Sort', this.sortBy);
             this.mfTable.setSort(this.sortBy, this.orderby);

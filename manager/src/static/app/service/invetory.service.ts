@@ -58,8 +58,8 @@ export class InvetoryService extends BaseServices {
     localStorage.removeItem('inventoryData');
     localStorage.setItem('refreshCounter', this.counterValue.toString());
     this.getInvertoryCache();
-    this.sortingService.resetSortFilters(reqType + '-Sort');
     this.sortingService.resetSearchCache(reqType + '-SearchValue');
+    this.sortingService.resetSortFilters(reqType + '-Sort');
 
     return true;
   }
