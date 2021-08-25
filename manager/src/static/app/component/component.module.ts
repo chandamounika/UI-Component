@@ -9,6 +9,7 @@ import { InventoryListComponent } from './inventory-list/inventory-list.componen
 import { SearchComponent } from './search-component/search-component.component';
 import { ReviewComponent } from './review/review.component';
 import { HistoryComponent } from './review/history/history.component';
+import { DataFilterComponent } from './data-filter/data-filter.component';
 
 
 @NgModule({
@@ -22,9 +23,9 @@ import { HistoryComponent } from './review/history/history.component';
         SharedModule
     ],
     exports: [InventoryListComponent, SearchComponent,
-        ReviewComponent,HistoryComponent],
+        ReviewComponent,HistoryComponent, DataFilterComponent],
 
-    declarations: [InventoryListComponent, SearchComponent, ReviewComponent,HistoryComponent],
+    declarations: [InventoryListComponent, SearchComponent, ReviewComponent,HistoryComponent, DataFilterComponent],
 
     entryComponents: [HistoryComponent],
     providers: []

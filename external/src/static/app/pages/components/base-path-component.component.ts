@@ -56,4 +56,21 @@ export abstract class BasePathController extends BaseController{
         return pathSpecificPageText
     }
     
+    
+    public setDefaultPageFooterDTL(){
+        this.pageFooterDTL = {
+            leftButtonTxt:this.pageText.back,
+            leftButtonAction:()=>{
+                this.goBack();
+            },
+
+            rightButtonTxt:this.pageText.saveAndContinue,
+            rightButtonAction:()=>{                
+                this.pageContinue(this.pageForm?this.pageForm.getRawValue():{})
+            }          
+        }
+        this.postSetDefaultPageFooterDTL();
+    }
+
+    protected postSetDefaultPageFooterDTL(){}
 }

@@ -41,14 +41,17 @@ export class SearchComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.placeholderText) {
-            this.dbSearchForm.controls['searchByValue'].setValue('');
-        }
-
-        if (this.searchCache) {
-            this.dbSearchForm.get('searchByValue').setValue(this.searchCache);
-            this.searchRequest(this.dbSearchForm.value);
-        }
+        setTimeout(() => {
+            if (changes.placeholderText) {
+                this.dbSearchForm.controls['searchByValue'].setValue('');
+            }
+            if (this.searchCache) {
+                this.dbSearchForm.get('searchByValue').setValue(this.searchCache);
+                this.searchRequest(this.dbSearchForm.value);
+            }else{
+                this.dbSearchForm.get('searchByValue').setValue("");
+            } 
+        }, 100);
     }
 
     enterSerchText() {

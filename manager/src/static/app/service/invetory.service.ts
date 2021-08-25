@@ -4,20 +4,24 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Utils } from '../shared/Utils';
 import { BaseServices } from './manager-base-services.service';
+import { SortingService } from './sorting.service';
 const endpoint_url = environment.contextPath + '/service/manager/';
-
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class InvetoryService extends BaseServices {
-
+   private refreshCacheSubject = new BehaviorSubject({refresh: false});
+   refreshCache = this.refreshCacheSubject.asObservable();
   private testMode: boolean;
   counterValue = 0;
   counterIntervals = [];
   utils: any;
-  constructor(http: HttpClient, utils: Utils) {
+
+  constructor(http: HttpClient, utils: Utils, private sortingService: SortingService) {
     super(http, utils);
     this.testMode = environment.testMode;
+
   }
 
   getInventory(serviceName: string) {
@@ -34,7 +38,6 @@ export class InvetoryService extends BaseServices {
   }
 
   async getInvertoryCache() {
-
     if (localStorage.getItem('inventoryData')) {
       return JSON.parse(localStorage.getItem('inventoryData'));
     } else {
@@ -50,10 +53,15 @@ export class InvetoryService extends BaseServices {
   }
 
   resetInvertoryCache() {
+    let reqType =  this.getreqType();
     this.counterValue = 0;
     localStorage.removeItem('inventoryData');
     localStorage.setItem('refreshCounter', this.counterValue.toString());
     this.getInvertoryCache();
+    this.sortingService.resetSearchCache(reqType + '-SearchValue');
+    this.sortingService.resetSortFilters(reqType + '-Sort');
+
+    return true;
   }
 
   setRefreshCounter() {
@@ -67,14 +75,21 @@ export class InvetoryService extends BaseServices {
       this.counterValue = localStorage.getItem('refreshCounter') ? parseInt(localStorage.getItem('refreshCounter')) + 1 : 0
       // 86400
       if (this.counterValue > 86400) {
-        this.resetInvertoryCache();
+        this.refreshCacheSubject.next({refresh:true});
       }
-      // console.log(this.counterValue)
       localStorage.setItem('refreshCounter', this.counterValue.toString());
     })
 
     this.counterIntervals.push(newTimer);
 
   }
+
+  setreqType(reqType){
+    localStorage.setItem('reqType', reqType);
+  }
+  getreqType(){
+    return localStorage.getItem('reqType');
+  }
+
 
 }

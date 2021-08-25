@@ -17,7 +17,6 @@ import { InvetoryService } from './service/invetory.service';
 export class AppComponent  implements OnInit, AfterViewInit {
   title = 'manager';
   pageClass = '';
-
   @ViewChild(SessionTimeOutModalComponent) sessionTimeoutModal: SessionTimeOutModalComponent;
 
   constructor(
@@ -55,6 +54,8 @@ export class AppComponent  implements OnInit, AfterViewInit {
     });
 
     this.inventoryService.setRefreshCounter();
+
+    
   
   }
 
@@ -70,6 +71,14 @@ export class AppComponent  implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit(): void {
+
+  //   this.activatedRoute.params.subscribe((params) => {
+  //     this.requestType = params["requestType"];
+
+  //     console.log("this.requestType", this.requestType)
+
+  //     // this.inventoryService.setRefreshCounter(this.requestType);
+  // });
   }
 
   ngOnInit(): void {
