@@ -31,6 +31,44 @@ body {
   padding: 2em;
 }
 
+.fas[data-count]{
+  position:relative;
+  font-size: 1.5em !important;
+}
+
+.fas[data-count]:after{
+  position: absolute;
+  /*right: -6px;
+  top: -16px;*/
+  content: attr(data-count);
+  padding: 0.5em;
+  border-radius: 10em;
+  line-height: 0.9em;
+  color: white;
+  text-align: center;
+  min-width: 2em;
+  font: normal normal normal 20px/30px Oswald;
+}
+
+.fas[data-count]:after{
+  right: -5px;
+  top: -12px;
+}
+
+.fas[data-count^="1"]:not(.fas[data-count="1"]):after,.fas[data-count^="2"]:not(.fas[data-count="2"]):after{
+  right: -5px;
+  top: -11px;
+}
+
+.table-header {
+  color: #604543;
+}
+
+.table-data {
+  display: flex;
+  align-items: center;
+}
+
 .take-tour.permit-page {
   display: none;
 }

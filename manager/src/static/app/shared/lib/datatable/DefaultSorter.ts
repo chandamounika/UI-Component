@@ -29,19 +29,26 @@ export class DefaultSorter implements OnInit {
             this.isSortedByMeAsc = (event.sortBy == this.sortBy && event.sortOrder == "asc");
             this.isSortedByMeDesc = (event.sortBy == this.sortBy && event.sortOrder == "desc");
         });
+        console.log(" this.isSortedByMeAsc", this.isSortedByMeAsc ,  this.isSortedByMeDesc)
 
     }
     ngAfterContentInit() {
-        if (this.sortOrder) {
-            this.sort(false);
-        }
+            if (this.sortOrder) {
+                this.sort(false);
+            } 
     }
 
     sort(val) {
+
+        this.mfTable.onSortChange.subscribe((event: SortEvent) => {
+            this.isSortedByMeAsc = (event.sortBy == this.sortBy && event.sortOrder == "asc");
+        });
+
         if (this.sortOrder && !val) {
             this.orderby = this.SortingService.getSortType(this.reqType + '-Sort', this.sortBy);
             this.mfTable.setSort(this.sortBy, this.orderby);
         } else {
+
             if (this.isSortedByMeAsc) {
                 this.orderby = "desc";
             } else {

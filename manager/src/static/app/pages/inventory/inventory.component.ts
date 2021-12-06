@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Data, Params } from '@angular/router';
 import { BaseControllerComponent } from '../../core/basecontroller.component';
 // import { ManagerService } from '../../service/manager.service';
 import { MyDeqErrorHandler } from '../../shared/errorHandler';
@@ -32,7 +32,9 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
 
     onIntervalList = [];
     searchCache: string = '';
-    tableHeaders= [];
+    tableHeaders = [];
+
+    refreshfunctionalities = true;
     constructor(
         public utils: Utils,
         private route: ActivatedRoute,
@@ -41,30 +43,46 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
         protected errorHandler: MyDeqErrorHandler,
         private logger: LoggerService,
         private inventoryService: InvetoryService,
-        private SortingService : SortingService
+        private SortingService: SortingService
     ) {
         super(errorHandler, new InventoryListText());
 
         route.params.subscribe((params) => {
             this.requestType = params["requestType"];
+            this.inventoryService.setreqType(this.requestType);
         });
         this.dbForm = this.formBuilder.group({
             searchText: new FormControl(null),
         });
 
-        this.tableHeaders = this.SortingService.getSortHeaderType(
-            this.requestType+'-Sort' , this.pageText[this.requestType].table 
-            ) ;
+        this.setTableHeaders();
     }
 
     ngOnInit() {
         this.gettableData();
-
         if (localStorage.getItem(this.requestType + '-SearchValue')) {
             this.searchCache = localStorage.getItem(this.requestType + '-SearchValue');
+        } else {
+            this.searchCache = "";
         }
+
+        this.inventoryService.refreshCache.subscribe((data: Data) => {
+            if (data.refresh) {
+                this.refreshCache();
+            }
+        })
     }
 
+    setTableHeaders() {
+        this.tableHeaders = this.SortingService.getSortHeaderType(
+            this.requestType + '-Sort', this.gettableheaders()
+        );
+    }
+
+    gettableheaders() {
+        let headers = this.pageText[this.requestType].table
+        return headers;
+    }
 
     async gettableData() {
         this.addSearchKeys(this.requestType);
@@ -74,11 +92,36 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
         console.log("REQTYPE", this.requestType);
 
         this.requestList = await this.inventoryService.getInvertoryCache();
+
+        this.tableHeaders.forEach(colData => {
+            if (colData.type == "object") {
+                this.requestList.forEach(result => {
+                    result[colData.sortKey] = "";
+                    colData.fieldNames.forEach((field, index) => {
+                        if (index == colData.fieldNames.length - 1) {
+                            result[colData.sortKey] += result[colData.objectKey] ? result[colData.objectKey][field] : ''
+                        } else {
+                            result[colData.sortKey] += result[colData.objectKey] ? result[colData.objectKey][field] + ", " : ''
+
+                        }
+                    });
+                })
+            }
+        })
+
         this.fullList = this.requestList;
     }
-    refreshCache() {
-        this.inventoryService.resetInvertoryCache();
+
+    async refreshCache() {
+        await this.inventoryService.resetInvertoryCache();
+        this.searchText = "";
+        this.searchCache = "";
+        this.setTableHeaders();
         this.gettableData();
+        this.refreshfunctionalities = false;
+        setTimeout(() => {
+            this.refreshfunctionalities = true;
+        }, 100);
     }
 
     addSearchKeys(requestType: string) {
@@ -90,6 +133,8 @@ export class InventoryComponent extends BaseControllerComponent implements OnIni
         this.searchKeys.set("customerId", []);
         this.searchKeys.set("address", ['diplayAddress']);
         this.searchText = "";
+        this.searchCache = "";
+
     }
 
     updatedSearchList(value: any[]) {

@@ -6,6 +6,9 @@ import { AdditionalCommentsComponent } from './additional-comments/additional-co
 import { CertifyComponent } from './certify/certify.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { ResponsivePageComponent } from './responsive-page/responsive-page.component';
+// import { NotificationIndexComponent } from './notification-index/notification-index.component';
+import { NotificationTestingComponent } from './notification-testing/notification-testing.component';
+import { AppIndexComponent } from './app-index/app-index.component';
 
 
 export const CommonRoute: Routes = [
@@ -44,6 +47,12 @@ export const CommonRoute: Routes = [
                 path: 'responsive',
                 component: ResponsivePageComponent,
                 data: { title: 'AIRCC-CONFIRMATION', placeBarRequired: false, showSaveAndExit: true, showReviewComments: false }
+            },
+
+            {
+                path: 'appindex',
+                component: AppIndexComponent,
+                data: { title: 'APP-INDEX', placeBarRequired: false, showSaveAndExit: true, showReviewComments: false }
             }
             
             

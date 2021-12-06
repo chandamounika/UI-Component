@@ -1,0 +1,53 @@
+<div class="card-body">
+    <h3>{{pageText?.header}}</h3>
+    <h6 class="pl-2">{{pageText?.sub_header}}</h6>
+    <div *ngFor="let error of errorsList" class="alert alert-danger text-center" role="alert">{{error}}</div>
+
+
+    <div class="pl-2">
+        <section *ngFor="let section of model?.pageBlocks;let sectionIndex=index" class="mt-5">
+            <h3 >{{section?.blockName}}</h3>
+            <hr *ngIf="section.pageSections.length == 0" />
+                
+            <table class="table table-striped h5" *ngIf="section.pageSections.length != 0">
+                <thead>
+                    <th class="table-header" [ngStyle]="{'width':revisionRequiredFlag ? '60%' : '78%' }"> {{pageText?.lbl_header_section}}
+                    </th>
+                    <th class="table-header" *ngIf="revisionRequiredFlag" style="width:20%;"> {{pageText?.lbl_revision_required}}</th>
+                    <th class="table-header" style="width:12%;"> {{pageText?.lbl_header_status}} </th>
+                    <th class="table-header"> {{pageText?.lbl_header_edit}} </th>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let eachPage of section.pageSections;let pageIndex=index">
+                        <td class="table-data">
+                            <i class="fas  fa-circle text-primary" [attr.data-count]="eachPage?.sequenceNo"></i>
+                            <span class="pl-2">{{eachPage?.sectionName}}</span>
+                        </td>
+                        <td *ngIf="revisionRequiredFlag">
+                            <i *ngIf="eachPage.revisionInd && eachPage.revisionInd =='Y'"
+                                class="fas fa-lg fa-times text-danger ml-5"></i>
+                        </td>
+                        <td>{{eachPage?.sectionStatus}}</td>
+
+                        <td><i class="fas fa-lg fa-pencil-alt text-primary ml-2"
+                                [ngClass]="{'text-primary-disabled':eachPage.sectionState != 'Y',' cursor-pointer':eachPage.sectionState == 'Y'}"
+                                (click)="editPage(eachPage.blockName,eachPage.sectionName,eachPage.sectionStatus,eachPage.sectionState,eachPage.sectionStartUrl)"></i>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <ul class="list-unstyled h4 pl-3 py-3">
+        <li *ngFor="let item of pageText?.action_list; let i = index;" class="deq-numberlist n{{i+1}}">
+
+            <span [innerHTML]="item.text"></span>
+            <sup *ngIf="item.tooltip" class="font-weight-light" placement="right">
+                <i class="far fa-question-circle" aria-hidden="true"></i>
+            </sup>
+        </li>
+    </ul>
+</div>
+<page-footer *ngIf="pageFooterDTL" [pageFooterDTL]="pageFooterDTL"></page-footer>

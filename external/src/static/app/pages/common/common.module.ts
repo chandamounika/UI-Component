@@ -12,6 +12,8 @@ import { ComponentPageModule } from '../components/componet.module';
 import { SharedModule } from '../../shared/shared.module';
 import { EachQuestion } from './question-list/each-question/each-question.component';
 import {ResponsivePageComponent} from './responsive-page/responsive-page.component';
+import { AppIndexComponent } from './app-index/app-index.component';
+import { NotificationTestingComponent } from './notification-testing/notification-testing.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import {ResponsivePageComponent} from './responsive-page/responsive-page.compone
         AdditionalCommentsComponent,      
         WhatsNeededComponent,
         EachQuestion,  
-        ResponsivePageComponent     
+        ResponsivePageComponent ,
+        AppIndexComponent,
+        NotificationTestingComponent    
     ],
     exports: [       
         CertifyComponent,
@@ -42,7 +46,9 @@ import {ResponsivePageComponent} from './responsive-page/responsive-page.compone
         AdditionalCommentsComponent,       
         WhatsNeededComponent,
         EachQuestion,
-        ResponsivePageComponent   
+        ResponsivePageComponent ,
+        AppIndexComponent,
+        NotificationTestingComponent  
     ]
 })
 export class CommonPageModule{}

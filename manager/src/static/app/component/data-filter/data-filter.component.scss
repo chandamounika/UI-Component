@@ -1,0 +1,28 @@
+.wrapper {
+    display: flex;
+    ;
+    flex-direction: column;
+
+    .filters-container {
+        display: flex;
+        flex-direction: row;
+
+        .filter-container {
+            display: flex;
+            flex-direction: column;
+            padding: .5rem;
+            margin: .5rem;
+            border: 1px solid gray;
+
+            .filter-options {
+                .dropdown-filter {}
+
+                .checkbox-filter {
+                    label {
+                        display: block
+                    }
+                }
+            }
+        }
+    }
+}

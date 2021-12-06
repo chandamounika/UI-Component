@@ -146,7 +146,7 @@
             <div *ngFor="let error of errorsList" class="alert alert-danger text-center" role="alert">{{error}}</div>
             <div class=" pt-4 search row no-gutters">
                 <div class="col-md-8">
-                    <search-component [searchList]="fullList" [searchKey]="searchKeys" [searchCache]="searchCache" [placeholderText]="placeHolderText" (updatedSearchList)="updatedSearchList($event)"></search-component>
+                    <search-component *ngIf="refreshfunctionalities" [searchList]="fullList" [searchKey]="searchKeys" [searchCache]="searchCache" [placeholderText]="placeHolderText" (updatedSearchList)="updatedSearchList($event)"></search-component>
                 </div>
                 <div class=" float-right col-md-4">
   
@@ -157,7 +157,7 @@
                     </button>
                 </div>
             </div>
-            <section class="pt-4 dashboard" id="dashboard">
+            <section class="pt-4 dashboard" id="dashboard"  *ngIf="refreshfunctionalities">
                 <table class="table table-striped h6" [mfData]="requestList" #mf="mfDataTable" [mfRowsOnPage]="15" mfSortOrder="desc">
                     <thead>
                         <tr class="h6">
@@ -173,9 +173,7 @@
                        
                         <td *ngFor="let colData of pageText[requestType].table">
   
-                          <div [ngSwitch]="colData.type">
-  
-    
+                          <!-- <div [ngSwitch]="colData.type">
                             <div *ngSwitchCase="'object'">
                               <div *ngFor="let field of colData.fieldNames" class="font-weight-light h6">
                                 {{result[colData.sortKey]? result[colData.sortKey][field] : ''}}
@@ -184,7 +182,9 @@
                             <div *ngSwitchCase="'data'" class="font-weight-light h6">
                               {{result[colData.sortKey]}}
                             </div>
-                            
+                          </div> -->
+                          <div class="font-weight-light h6">
+                            {{result[colData.sortKey]}}
                           </div>
                         </td>
                         <td>                       

@@ -201,7 +201,7 @@
       }
     }
   },
-  "defaultProject": "manager",
+  "defaultProject": "external",
   "schematics": {
     "@schematics/angular:class": {
       "skipTests": true
