@@ -33,6 +33,7 @@ export class AppComponent implements AfterViewChecked, OnInit, AfterViewInit {
   pageTitle = 'SUBMIT AIR COMPLIANCE CERTIFICATION';
   showReturnToQL:boolean = false;
   data: any =null;
+  showExit:boolean=false;
   constructor(
     public utils: Utils,
     private titleService: Title,
@@ -86,12 +87,19 @@ export class AppComponent implements AfterViewChecked, OnInit, AfterViewInit {
         this.pageTitle = this.data.title ? this.data.title : this.pageTitle;
         titleService.setTitle(this.pageTitle);
        
-        utils.path = utils.path ? utils.path : (root.routeConfig.path ? root.routeConfig.path : '');
+        //utils.path = utils.path ? utils.path : (root.routeConfig.path ? root.routeConfig.path : '');
+ 		this.utils.path = this.getPathArray(e.url);
         utils.pageURL = e.url;
         this.utils.showSaveAndExit = this.data.showSaveAndExit ? this.data.showSaveAndExit : false;       
         if(this.data.placeBarRequired ){
           this.initPlaceBar(root);        }
         this.showReturnToQL = this.data.showReturnToQL ? this.data.showReturnToQL : false;      
+
+
+		if(this.data.showExit){
+		          this.showExit=this.data.showExit;
+		          this.utils.showSaveAndExit = false;
+		        }
 
       } else if (e instanceof NavigationEnd) {
         if (e.url.indexOf('glbReqId') > 0) {
@@ -109,7 +117,7 @@ export class AppComponent implements AfterViewChecked, OnInit, AfterViewInit {
 
   }
 
-  onActivate(event: any) {
+   onActivate(event: any) {
     setTimeout(() => {
       this.currentComponent = event;
       if (typeof this.currentComponent.setPageReview === "function") {
@@ -121,15 +129,19 @@ export class AppComponent implements AfterViewChecked, OnInit, AfterViewInit {
         if(this.data.pageTextComp){
           PageConentService.getInstance().registerBasePageContent(event, this.data.pageTextComp);
           event.pageText = event.getPathSpecificText();
-         }
-  
+          event.pageFooterDTL={}
+          event.pageFooterDTL.leftButtonTxt = event.pageText.back;
+          event.pageFooterDTL.rightButtonTxt = event.pageText.saveAndContinue;        
+         }  
          if(this.data.pageLoadServiceName){
           event.setPageLoadServiceName(this.data.pageLoadServiceName);
-         }
-       
+         }       
       }
 
-    }, 300);
+      //Set Page Footer Details
+      event.setDefaultPageFooterDTL();
+
+    }, 0);
   }
 
   onDeactivate(event: any) {
@@ -276,5 +288,21 @@ export class AppComponent implements AfterViewChecked, OnInit, AfterViewInit {
 
   showNeedHelp() {
     this.helpLayer.loadHelp(this.utils.module, this.utils.path, this.utils.currentPageId);
+  }
+
+getPathArray(url: string): string[] {
+    const segments: string[] = url ? url.split('/') : [];
+    let path: string[] = [];
+    for (let i = 1; i < segments.length; i++) {
+      if (segments[i].indexOf('mydeq') == -1 && i < segments.length - 1) {
+        path.push(segments[i]);
+      }
+    }
+
+    return path;
+  }
+
+  protected exitNavigation(){
+      this.utils.gotoDashboard();
   }
 }

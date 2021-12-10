@@ -15,7 +15,7 @@ export class Utils {
 
   title: string;
 
-  set path(val) {
+  /*set path(val) {
     //if (!this.pathVal)// Recheck on this later
     {
         this.pathVal = val;      
@@ -24,8 +24,9 @@ export class Utils {
 
   get path() {
     return this.pathVal;
-  }
+  }*/
 
+  path: any = [];
   pageURL: string;
   pageTitle:string ="";
 
@@ -135,7 +136,7 @@ export class Utils {
       }
       else{
           if(includePath){
-            url = [this.path+'/'].concat(pageName);
+            url = this.path.concat('/',pageName);
           }else{
             url = [].concat(pageName);
           }
@@ -444,4 +445,7 @@ export class Utils {
     return '';
    }
 
+ consoleLog(obj) {
+    console.log(obj)
+  }
 }

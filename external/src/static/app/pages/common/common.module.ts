@@ -14,6 +14,7 @@ import { EachQuestion } from './question-list/each-question/each-question.compon
 import {ResponsivePageComponent} from './responsive-page/responsive-page.component';
 import { AppIndexComponent } from './app-index/app-index.component';
 import { NotificationTestingComponent } from './notification-testing/notification-testing.component';
+import { TableListingComponent } from './table-listing/table-listing.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { NotificationTestingComponent } from './notification-testing/notificatio
         EachQuestion,  
         ResponsivePageComponent ,
         AppIndexComponent,
-        NotificationTestingComponent    
+        NotificationTestingComponent,
+        TableListingComponent    
     ],
     exports: [       
         CertifyComponent,

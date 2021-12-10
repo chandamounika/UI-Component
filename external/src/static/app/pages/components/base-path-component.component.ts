@@ -35,28 +35,9 @@ export abstract class BasePathController extends BaseController{
          _pageTextComp?: PageTextGetter) {
         super(activatedRoute,formBuilder,utils,appService,errorHandler,_pageTextComp);
         this.pageText = this.getPathSpecificText();
-
-        this.pageFooterDTL = {
-            leftButtonTxt:this.pageText.back,
-            leftButtonAction:()=>{
-                this.goBack();
-            },
-
-            rightButtonTxt:this.pageText.saveAndContinue,
-            rightButtonAction:()=>{                
-                this.pageContinue(this.pageForm?this.pageForm.getRawValue():{})
-            }          
-        }
+   
     }
 
-    protected getPathSpecificText(){
-        let pathSpecificPageText={};
-        merge(pathSpecificPageText,this.pageText.base);
-        merge(pathSpecificPageText,this.pageText[this.utils.path]);
-        return pathSpecificPageText
-    }
-    
-    
     public setDefaultPageFooterDTL(){
         this.pageFooterDTL = {
             leftButtonTxt:this.pageText.back,
@@ -73,4 +54,20 @@ export abstract class BasePathController extends BaseController{
     }
 
     protected postSetDefaultPageFooterDTL(){}
+
+
+    protected getPathSpecificText(){
+        let pathSpecificPageText={};
+        merge(pathSpecificPageText,this.pageText.base);
+        if(this.pageText[this.utils.path]){
+            merge(pathSpecificPageText,this.pageText[this.utils.path]);
+        }else{
+            merge(pathSpecificPageText,this.pageText['*']);
+        }
+        
+        return pathSpecificPageText
+    }
+    
+    
+   
 }

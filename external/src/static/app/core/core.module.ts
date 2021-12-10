@@ -25,6 +25,8 @@ import { PageConentService } from './content/content-service.component';
 import { NeedHelpComponent } from './component/need-help/need-help.component';
 import { GlobalService } from './service/global.service';
 import { LogoutService } from './service/logout.service';
+import { DeqTableModule } from './component/deqtable/DeqTableModule';
+import { SampleComponent } from './component/sample/sample.component';
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { LogoutService } from './service/logout.service';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    DataTableModule
+    DataTableModule,
+    DeqTableModule
   ],
 
   declarations: [
@@ -53,7 +56,8 @@ import { LogoutService } from './service/logout.service';
     MydeqNavigationAlertModalComponent,
     SafeUrlPipe,
     CommentsComponent,
-    NeedHelpComponent
+    NeedHelpComponent,
+    SampleComponent
   ],
 
   exports: [
@@ -72,7 +76,10 @@ import { LogoutService } from './service/logout.service';
     MydeqNavigationAlertModalComponent,
     SafeUrlPipe,
     CommentsComponent,
-    NeedHelpComponent
+    NeedHelpComponent,
+
+    DeqTableModule,
+    SampleComponent
   ],
   providers: [MyDeqErrorHandler,PageConentService, GlobalService, LogoutService],
   //entryComponents: [MydeqAlertModalComponent]

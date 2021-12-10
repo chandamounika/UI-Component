@@ -155,13 +155,15 @@ body {
   overflow-y: hidden;
   border: 0;
   text-align: justify;
+  background: white;
+  color: inherit;
+  font-weight: 300;
+  padding: 0;
+  width: 400px;
 }
 
 #saveExitCollapse {
-  min-width: 400px;
-  height: 100%;
-  z-index: 1000;
-  
+  height: 100%; 
 }
 .dropdown {
   .btn {
@@ -372,6 +374,8 @@ li.required::before {
 }
 
 .custom-control {
+  padding-left: 4rem;
+  
   &.has-danger .custom-control-label::before {
     border: 2px solid theme-color("danger");
   }
@@ -409,6 +413,10 @@ li.required::before {
   .custom-control-input:disabled~.custom-control-label::after {
     opacity: .8;
   }
+}
+
+.custom-control-label::before,.custom-control-label::after{
+  left:-3rem;
 }
 
 .custom-radio-bottom {
@@ -709,6 +717,14 @@ li.required::before {
   padding-right: 10px;
 }
 
+.deq-numberlist-table {
+  margin-bottom: 20px;
+  padding-left: 2.5em !important;
+  padding-bottom:0.5em !important;
+  background-position: left;
+  font-weight: 300;
+}
+
 .n1 {
   background: url('../assets/img/n_1.svg');
   background-repeat: no-repeat;
@@ -979,6 +995,9 @@ ngb-datepicker.dropdown-menu {
 background-color: $inverse-bg;
 }
 
+.mydeq-teal {
+  color: $teal !important;
+}
  .custom-checkbox-md, .custom-radio-md {
 	.custom-control-label {
 		background-size: 60%;
@@ -1004,3 +1023,19 @@ background-color: $inverse-bg;
   display: block !important;
   cursor: default !important;
  }
+
+ #needHelpBtn {
+  background-color: #604543; 
+  color: #fff; 
+  padding: 0.4rem 0.5rem;
+}
+
+#saveExitBtn {
+  &::after {
+    content: ''
+  }
+}
+
+.bottom-btn{
+  min-width: 135px;
+}
