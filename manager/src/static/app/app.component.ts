@@ -82,7 +82,7 @@ export class AppComponent  implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.sessionTimeoutModal.init();
+    //this.sessionTimeoutModal.init();
 
     this.activatedRoute.fragment.subscribe((fragment: String) => {     
      

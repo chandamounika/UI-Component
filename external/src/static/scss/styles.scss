@@ -1039,3 +1039,7 @@ background-color: $inverse-bg;
 .bottom-btn{
   min-width: 135px;
 }
+
+.dropdown.show .dropdown-toggle::after {
+  content: "";
+}

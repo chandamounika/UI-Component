@@ -1,0 +1,15 @@
+
+<ul class="pagination float-left mb-0" *ngIf="pagination_details?.currentpagingwindow.length > 1">
+    <li class="page-item" *ngFor="let page of pagination_details?.currentpagingwindow" [class.active]="page == pagination_details?.active_page">
+        <a class="page-link" style="cursor: pointer" (click)="go_to_page(page,pagination_details)">{{page}}</a>
+    </li>
+    <li class="page-item" (click)="go_to_page(pagination_details.totalpages,pagination_details)">
+        <a class="page-link" style="cursor: pointer">/ {{pagination_details?.totalpages}}</a>
+    </li>
+    <li class="page-item" [class.disabled]="pagination_details?.isFirstpage" (click)="move_backward(pagination_details)">
+        <a class="page-link ml-1 direction" style="cursor: pointer"><i class="fa fa-chevron-left"></i></a>
+    </li>
+    <li class="page-item" [class.disabled]="pagination_details?.isLastPage" (click)="move_forward(pagination_details)">
+        <a class="page-link ml-1 direction" style="cursor: pointer"><i class="fa fa-chevron-right"></i></a>
+    </li>
+</ul>

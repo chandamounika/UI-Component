@@ -1,6 +1,9 @@
+import * as _ from 'lodash-es'
+
 export class FilterEngine{
 
     
+
 //------------ PURE FUNCTIONS ------------ 
 /**
  * It adds unique ids to each record for filtering.
@@ -84,10 +87,17 @@ export class FilterEngine{
  * Eg: [{'Valentia' => Set { 0, 6 },'Dulcine' => Set { 1 }},{'Orlton' => Set { 0, 2, 5 },'Petruszka' => Set { 1 }}]
  * @returns A set of unique ids {0,1,2,5,6}
  */
- merge_filter_indices = filterkeyMapList=>filterkeyMapList.reduce((accum,current)=>{          
-    accum = new Set([...accum,...current])
-    return accum
- },new Set())
+ merge_filter_indices = filterkeyMapList=>{
+     console.log("merge_filter_indices::",filterkeyMapList)
+     let merged_indices=[]
+    filterkeyMapList.forEach(element => {
+        if(element){
+            merged_indices = _.union(merged_indices,Array.from(element.keys()))
+        }
+        
+    })
+    return new Set(merged_indices)
+}
 
 
 
@@ -100,11 +110,17 @@ export class FilterEngine{
  * @returns A list of uniquie ids as per filter criteria [0,1,2,5,6]
  */
  filter_list_ids=(inputlist,filterkeyMapList)=>{    
-    let uniquIndises = this.merge_filter_indices(filterkeyMapList)    
-    return inputlist.reduce((accum,current)=> {
-         uniquIndises.has(current) ? accum.push(current) : accum
+    let uniquIndises = this.merge_filter_indices(filterkeyMapList)
+    let result= inputlist.reduce((accum,current)=> {
+        if(uniquIndises.has(current)){
+            accum.push(current)
+        }
+          
          return accum
     },[])
+
+    console.log("************** ",result)
+    return result
    }
 
 /**
@@ -115,7 +131,7 @@ export class FilterEngine{
  * @param {*} _resultset List of record ids. Eg: [0,5,6,7]
  * @returns New State object with all the above values.
  */ 
- create_new_filter_state_helper=(_filterMap,_lastfilteredcolumn=null,_lastfiltervalues=null,_resultset=null)=>{ 
+ create_new_filter_state_helper=(_filterMap,_lastfilteredcolumn=null,_lastfiltervalues=null,_resultset=null)=>{
     return {
         filterMap:_filterMap,
         lastfilteredcolumn:_lastfilteredcolumn,
@@ -134,8 +150,8 @@ export class FilterEngine{
  * @returns New Filter state object
  */
  create_new_filter_state=(previous_state,newFiltercolumn,filtered_ids,dataset_columnnames,inputlist)=>{
-
-    let new_result = [...this.filter_list_ids(previous_state.resultset,filtered_ids).values()]   
+    let new_result = this.filter_list_ids(previous_state.resultset,filtered_ids)
+    console.log("New Result ", new_result)
     let new_filterMap=null
     
         let intermidiateFileterMap=this.calculate_filter(inputlist,new_result,dataset_columnnames)
@@ -158,7 +174,7 @@ export class FilterEngine{
  * @returns 
  */
  create_initial_state=(initial_datalist,columnnames)=>{
-    let unique_id_list= initial_datalist.map(current=>current.uniqueid)
+    let unique_id_list= initial_datalist.map(current=>current.uniqueid)    
     return [this.create_new_filter_state_helper(this.calculate_filter(initial_datalist,
                                                             unique_id_list,
                                                             columnnames),
@@ -167,16 +183,11 @@ export class FilterEngine{
                                                                         unique_id_list)]
 }
 
-public get_filtered_records=(original_dataset,filter_state)=> this.get_data_by_indices(original_dataset,filter_state[filter_state.length-1].resultset)
+get_filtered_records=(originallist,filterstate)=>this.get_data_by_indices(originallist,filterstate[filterstate.length-1].resultset)
+get_updated_filter_list=(filterstate)=>filterstate[filterstate.length-1].filterMap
+//get_filtered_records=(originallist,filterstate)=>this.get_data_by_indices(originallist,filterstate[0].resultset)
+//get_updated_filter_list=(filterstate)=>filterstate[0].filterMap
 
-//Always return original filter list
-//[...filterstate[filterstate.length-1].filterMap.entries()].map(current=> [current[0],[...current[1].keys()].join(', ')])
-/**
- * 
- * @param filter_state 
- * @returns 
- */
-public get_latest_filters=(filter_state,columnname)=> Array.from(filter_state[0].filterMap.get(columnname).entries()).map(current=>current[0])
 
 /* ************************************* */
 
@@ -197,6 +208,7 @@ public get_latest_filters=(filter_state,columnname)=> Array.from(filter_state[0]
     
 }*/
 
+
 /**
  * Update filter state as per new filter criteria and previous filter state.
  * @param {*} filter_state Entire filter state STACK.
@@ -205,7 +217,7 @@ public get_latest_filters=(filter_state,columnname)=> Array.from(filter_state[0]
  * @param {*} dataset_columnnames List of column names from original dataset. Eg: ['first_name','last_name','gender','company','department','language','salery']
  * @param {*} inputlist Original dataset
  */
- update_filter_state=(filter_state,newfiltercolumn,newfiltervaluelist,dataset_columnnames,inputlist)=>{
+  public update_filter_state=(filter_state,newfiltercolumn,newfiltervaluelist,dataset_columnnames,inputlist)=>{
   
     let previous_state = filter_state[filter_state.length-1]
 
@@ -224,7 +236,7 @@ public get_latest_filters=(filter_state,columnname)=> Array.from(filter_state[0]
             inputlist))
     }
     else{
-        let uniqueIds=newfiltervaluelist.map(current=>previous_state.filterMap.get(newfiltercolumn).get(current))
+        let uniqueIds=newfiltervaluelist.map(current=>previous_state.filterMap.get(newfiltercolumn).get(current))      
         filter_state.push(this.create_new_filter_state(previous_state,
             newfiltercolumn,
             uniqueIds,
@@ -279,7 +291,9 @@ public get_latest_filters=(filter_state,columnname)=> Array.from(filter_state[0]
    * @param {*} columnnames List of column names from original dataset. Eg: ['first_name','last_name','gender','company','department','language','salery']
    */
  public init=(initial_datalist,columnnames)=>{
- return this.create_initial_state(this.preparedata(initial_datalist),columnnames)
+     let init_state= this.create_initial_state(this.preparedata(initial_datalist),columnnames)
+     console.log("Init State ",init_state)
+ return init_state
   //ask_user(initial_datalist,filter_state,columnnames)
 }
 /* ************************************* */

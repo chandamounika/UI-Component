@@ -1,6 +1,8 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import { DeqTable, DeqTableHeaders } from "./DeqTable";
+import { DeqTable, DeqTableHeaders, GeneralColumnHeaders } from "./DeqTable";
+//import { TablefooterComponent } from "./tablefooter/tablefooter.component";
+
 
 
 
@@ -10,12 +12,15 @@ import { DeqTable, DeqTableHeaders } from "./DeqTable";
     ],
     declarations: [
         DeqTable,
-        DeqTableHeaders
-        
+        DeqTableHeaders,
+        GeneralColumnHeaders,
+        //TablefooterComponent
     ],
     exports: [
         DeqTable,
-        DeqTableHeaders
+        DeqTableHeaders,
+        GeneralColumnHeaders
+        //TablefooterComponent
     ],
  
 })

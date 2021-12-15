@@ -27,6 +27,8 @@ import { GlobalService } from './service/global.service';
 import { LogoutService } from './service/logout.service';
 import { DeqTableModule } from './component/deqtable/DeqTableModule';
 import { SampleComponent } from './component/sample/sample.component';
+import { FilterOptionsComponent } from './component/deqtable/filter-options/filter-options.component';
+import { TablefooterComponent } from './component/deqtable/tablefooter/tablefooter.component';
 
 
 @NgModule({
@@ -57,7 +59,10 @@ import { SampleComponent } from './component/sample/sample.component';
     SafeUrlPipe,
     CommentsComponent,
     NeedHelpComponent,
-    SampleComponent
+    SampleComponent,
+    FilterOptionsComponent,
+    TablefooterComponent
+    
   ],
 
   exports: [
@@ -79,7 +84,9 @@ import { SampleComponent } from './component/sample/sample.component';
     NeedHelpComponent,
 
     DeqTableModule,
-    SampleComponent
+    SampleComponent,
+    FilterOptionsComponent,
+    TablefooterComponent
   ],
   providers: [MyDeqErrorHandler,PageConentService, GlobalService, LogoutService],
   //entryComponents: [MydeqAlertModalComponent]
