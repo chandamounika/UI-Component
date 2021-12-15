@@ -1,18 +1,20 @@
 import { ModuleWithProviders } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { WhatsNeededComponent } from './whats-needed/whats-needed.component';
-import { QuestionListComponent } from './question-list/question-list.component';
+import { RouterModule, Routes } from '@angular/router';
 import { AdditionalCommentsComponent } from './additional-comments/additional-comments.component';
+import { AppIndexComponent } from './app-index/app-index.component';
 import { CertifyComponent } from './certify/certify.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { QuestionListComponent } from './question-list/question-list.component';
 import { ResponsivePageComponent } from './responsive-page/responsive-page.component';
-// import { NotificationIndexComponent } from './notification-index/notification-index.component';
-import { NotificationTestingComponent } from './notification-testing/notification-testing.component';
-import { AppIndexComponent } from './app-index/app-index.component';
+import { TableListingComponent } from './table-listing/table-listing.component';
+import { WhatsNeededComponent } from './whats-needed/whats-needed.component';
 
 
 export const CommonRoute: Routes = [
-
+    {
+        path:"listing",
+        component:TableListingComponent
+    },
     {
         path: 'cc',
         children: [        

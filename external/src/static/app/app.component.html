@@ -9,28 +9,41 @@
         <div class="clearfix"></div>
       </div>
     </div>
-    <div>
-      <div class="float-right pl-3" id="saveExitContainer" ngbDropdown placement="bottom-right" *ngIf="utils.showSaveAndExit">
-        <button id="saveexitbtn" class="btn btn-primary float-right" type="button" ngbDropdownToggle>
-          <i class="far fa-save" aria-hidden="true"></i> SAVE APPLICATION &amp; EXIT
-          <i class="fas fa-chevron-right"></i>
+    
+    
+    <div class="clearfix">
+      <div class="float-right pl-1" id="saveExitContainer" ngbDropdown placement="bottom-right"
+        *ngIf="utils.showSaveAndExit" #saveExit="ngbDropdown">
+        <button id="saveExitBtn" class="btn btn-primary text-center" style="width: 100px" type="button"
+          ngbDropdownToggle>
+          SAVE &amp; EXIT
         </button>
         <div ngbDropdownMenu>
-          <div id="saveExitCollapse" class="card bg-primary text-secondary float-right">
+          <div id="saveExitCollapse" class="card">
             <div class="card-body">
-              <h5 class="font-weight-normal">You can save this application (up to the last page of data entered) to your myAPPLICATIONS tab to complete
-                at a later date by clicking SAVE & EXIT. Or click CANCEL to continue filling out this application now.</h5>
+              <h5 class="font-weight-light">To exit and save your progress up to the previous page completed click YES
+                or
+                click NO to resume your submission. Note: You can resume at any time by visiting your myAPPLICATION or
+                myCOMPLIANCE tabs.</h5>
             </div>
             <div class="clearfix"></div>
             <div class="card-footer p-0">
-              <button type="button" class="btn btn-secondary float-left text-primary w-25">
-                <span class="arrow">
+              <button type="button" class="btn btn-danger float-left w-auto" (click)="saveExit.close()">
+                <span class="arrow left">
                   <i class="fas fa-chevron-left"></i>
-                </span> CANCEL
+                </span> NO
               </button>
-              <button type="button" class="btn btn-secondary float-right text-primary w-25" (click)="saveAndExit()">
-                SAVE &amp; EXIT
-                <span class="arrow">
+              <button type="button" class="btn btn-primary float-right w-auto" (click)="saveAndExit()"
+                *ngIf="utils.path[1] !== 'annualreport'">
+                YES
+                <span class="arrow right pl-3">
+                  <i class="fas fa-chevron-right"></i>
+                </span>
+              </button>
+              <button type="button" class="btn btn-primary float-right w-auto" (click)="utils.gotoCompliance()"
+                *ngIf="utils.path[1] === 'annualreport'">
+                YES
+                <span class="arrow right pl-3">
                   <i class="fas fa-chevron-right"></i>
                 </span>
               </button>
@@ -40,31 +53,25 @@
           <div class="clearfix"></div>
         </div>
       </div>
-      <div class="float-right pr-0">
-        <button id="saveexitbtn" class="btn btn-danger float-right" type="button" style="background-color: #604543; color: #fff;" (click)="showNeedHelp()">
-          <i class="fa fa-user pr-2" aria-hidden="true"></i>NEED HELP ?
+      <div class="float-right pl-1" id="saveExitContainer" placement="bottom-right" *ngIf="showExit">
+        <button id="ExitBtn" class="btn btn-primary text-center" type="button" style="width: 100px"
+          (click)="exitNavigation()">
+          EXIT
+        </button>
+       
+      </div>
+      <div class="float-right pr-0 " (click)="utils.consoleLog(utils)">
+        <button id="needHelpBtn" class="btn" type="button" (click)="showNeedHelp()">
+          NEED HELP ?
         </button>
       </div>
+      <div class="clearfix"></div>
     </div>
+
+
     <div class="clearfix"></div>
     <section class="jumbotron {{pageClass}}">
       <div class="card card-default">
-
-        <div *ngIf="showReturnToQL" class="pt-3 pl-4">
-          <button type="button" class="btn btn-primary float-left" (click)="goToQstList()" placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
-            <span class="arrow left">
-              <i class="fa fa-chevron-left"></i>
-            </span>RETURN TO QUESTION LIST
-          </button>
-          <div class="clearfix"></div>
-
-          <ng-template #popContent>
-              <div class="pb-2 "> Clicking this button will not save your answer.  You will return to the question list page where you can view & edit all questions.</div>
-              <div class="clearfix"></div>
-            </ng-template>
-          
-        </div>
-        <div class="clearfix"></div>
 
         <div class="card-header px-0 mx-4 pb-0">
           <h1 class="card-title text-primary divider-horizontal font-weight-bold pb-3 mb-0">{{utils?.title}}</h1>

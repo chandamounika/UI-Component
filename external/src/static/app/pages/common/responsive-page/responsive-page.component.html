@@ -100,5 +100,5 @@
     </div>
     <div class="clearfix"></div>
 
-    <page-footer [pageFooterDTL]="pageFooterDTL"></page-footer>
+    <page-footer *ngIf="pageFooterDTL" [pageFooterDTL]="pageFooterDTL"></page-footer>
 </form>

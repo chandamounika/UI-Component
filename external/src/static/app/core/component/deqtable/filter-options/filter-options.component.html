@@ -1,0 +1,73 @@
+<!--    <section class="wrapper">
+     
+      <section class="filters-container">
+          <div class="filter-container">
+              {{display_header}} Filter
+              <div class="filter-options" [ngSwitch]="filter_type">
+                  <div class="dropdown-filter" *ngSwitchCase="'DROPDOWN'">
+                      <select (change)="onDropDownChange($event)">
+                          <option value="null">--Select--</option>
+                          <option *ngFor="let opt of  option_list" [value]="opt">{{opt}}</option>
+                      </select>
+                  </div>    
+                  <div class="checkbox-filter" *ngSwitchCase="'CHECKBOX'">
+                      <label *ngFor="let opt of option_list;let i=index">
+                          <input type="checkbox" name="{{i}}{{opt}}" value="{{opt}}" (change)="onCheckBoxChange($event)" checked>
+                          {{opt}}
+                      </label>
+                  </div>
+                  
+                  <div class="checkbox-filter" *ngSwitchCase="'RADIO'">
+                      <label *ngFor="let opt of option_list;let i=index" for={{i}}{{opt}}>
+                          <input type="radio" [name]="opt" [value]="opt.value" id={{i}}{{opt}} (change)="onRadioChange($event)">
+                          {{opt}}
+                      </label>
+                  </div>
+  
+              </div>
+          </div>
+      </section>
+  </section>-->
+
+
+<div class="row">
+    <div class="col">
+        <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-primary" ngbDropdownToggle>{{display_header}} Filtern</button>
+            <div ngbDropdownMenu>
+                <div class="filter-options" [ngSwitch]="filter_type">
+                    <div class="dropdown-filter" *ngSwitchCase="'DROPDOWN'">
+                        <select (change)="onDropDownChange($event)">
+                            <option value="null">--Select--</option>
+                            <option *ngFor="let opt of  option_list"  [value]="opt">{{opt}}</option>
+                        </select>
+                    </div>    
+                    <div *ngSwitchCase="'CHECKBOX'">
+                        <div *ngFor="let opt of option_list;let i=index" class="ml-2 text-white">
+                            <label>
+                                <input type="checkbox" name="{{i}}{{opt}}" id="checkbox{{i}}" value="{{opt}}" (change)="onCheckBoxChange($event)" checked>
+                                {{opt}}
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-filter" *ngSwitchCase="'RADIO'">
+                        <label *ngFor="let opt of option_list;let i=index" for={{i}}{{opt}}>
+                            <input type="radio" [name]="opt" [value]="opt.value" id={{i}}{{opt}} (change)="onRadioChange($event)">
+                            {{opt}}
+                        </label>
+                    </div>
+    
+                </div>
+
+
+
+
+                <div class="dropdown-divider"></div>
+                <button ngbDropdownItem (click)="apply_all_filters()">Apply all</button>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>

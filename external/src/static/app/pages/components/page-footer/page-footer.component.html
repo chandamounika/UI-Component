@@ -1,13 +1,13 @@
 <div class="card-footer">
-    <button *ngIf="pageFooterDTL.leftButtonTxt" [disabled]="pageFooterDTL.disableLeftButton" type="button" class="btn btn-primary float-left" (click)="pageFooterDTL.leftButtonAction()">
-        <span class="arrow left">
+    <button *ngIf="pageFooterDTL?.leftButtonTxt" [disabled]="pageFooterDTL?.disableLeftButton" type="button" class="btn bottom-btn btn-primary float-left px-3" (click)="pageFooterDTL?.leftButtonAction()">
+        <span class="arrow left float-left">
             <i class="fa fa-chevron-left"></i>
-        </span>{{pageFooterDTL.leftButtonTxt}}
+        </span><span class="float-right">{{pageFooterDTL?.leftButtonTxt}}</span>
     </button>
-    <button *ngIf="pageFooterDTL.rightButtonTxt" [disabled]="pageFooterDTL.disableRightButton" type="button" class="btn btn-primary float-right" 
-    (click)="pageFooterDTL.rightButtonAction()">
-        {{pageFooterDTL.rightButtonTxt}}
-        <span class="arrow right">
+    <button *ngIf="pageFooterDTL?.rightButtonTxt" [disabled]="pageFooterDTL?.disableRightButton" type="button" class="btn bottom-btn btn-primary float-right px-3" 
+    (click)="pageFooterDTL?.rightButtonAction()">
+        <span class="float-left">{{pageFooterDTL?.rightButtonTxt}}</span>
+        <span class="arrow right float-right">
             <i class="fa fa-chevron-right"></i>
         </span>
     </button>

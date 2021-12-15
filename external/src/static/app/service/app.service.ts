@@ -476,7 +476,7 @@ export class AppService {
         console.log(`this.utils.path====>: ${this.utils.path}`);
         console.log(`mockDataKey====>: ${mockDataKey}`);
         
-        if (this.utils.path && environment[this.utils.path][mockDataKey]) {
+        if (this.utils.path && this.utils.path.length > 0 && environment[this.utils.path.length-1] && environment[this.utils.path.length-1][mockDataKey]) {
             returnObj = environment[this.utils.path][mockDataKey];
         } else if (environment[mockDataKey]) {
             returnObj = environment[mockDataKey];

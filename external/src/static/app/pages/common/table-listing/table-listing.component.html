@@ -1,0 +1,23 @@
+<div class="card-body">    
+    <h3 class="pt-3">{{pageText?.header}}</h3>
+
+    <table class="table table-striped" [deqTable]="model.permit"  #table="deqDataTable">
+        <thead>
+            <tr>
+            <th filter columnname="activityId" displayheader="Permit id"></th>
+            <th>Two</th>
+            <th>Issue Date</th>
+            <th filter columnname="status" displayheader="Status"></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let permit of table.records">
+                <td>{{permit?.activityId}}</td>
+                <td>{{permit?.process}}</td>
+                <td>{{permit?.issueDate}}</td>
+                <td>{{permit?.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+ 
+</div>
